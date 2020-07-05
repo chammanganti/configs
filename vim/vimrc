@@ -1,0 +1,78 @@
+" Plugins
+call plug#begin()
+
+Plug 'ayu-theme/ayu-vim'
+Plug 'itchyny/lightline.vim'
+Plug 'preservim/nerdtree'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/AutoClose'
+
+call plug#end()
+
+" Globals
+set background=dark
+set backspace=eol,indent,start
+set laststatus=2
+set nolazyredraw
+set noshowmode
+set number
+set relativenumber
+
+if has('termguicolors')
+  set termguicolors
+endif
+
+if !has('gui_running')
+  set t_Co=256
+endif
+
+set ttyfast
+set updatetime=100
+
+" Variables
+let ayucolor = "dark"
+
+let g:lightline = {
+  \     'active': {
+  \         'left': [['mode', 'paste' ], ['readonly', 'filename', 'modified']],
+  \         'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding']]
+  \     }
+  \ }
+
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '-'
+let NERDTreeMinimalUI = 1
+
+let g:gitgutter_set_sign_backgrounds = 1
+
+if has('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+endif
+
+" Appearance
+colorscheme ayu
+
+" Autocommand
+augroup vimrc_autocmd
+  autocmd!
+
+  " NERDTree
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in")
+    \ | exe 'NERDTree' argv()[0]
+    \ | wincmd p
+    \ | ene
+    \ | exe 'cd '.argv()[0]
+    \ | endif
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree())
+    \ | q
+    \ | endif
+
+augroup END
+
+" Mapping
+map <C-o> :NERDTreeToggle<CR>
