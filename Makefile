@@ -3,16 +3,13 @@ all: help
 help:
 	@echo "A simple config helper."
 	@echo "Usage:"
-	@echo -e "\tmake s[app] - setups the app"
-	@echo -e "\tmake c[app] - cleans the app"
-	@echo ""
-	@echo -e "\tmake svim"
-	@echo -e "\tmake cvim"
+	@echo -e "\tmake [option]"
 	@echo "Options:"
-	@echo -e "\tvim - vim-plug, vimrc, and editorconfig"
+	@echo -e "\tvim-setup - setups vim-plug, vimrc, and editorconfig"
+	@echo -e "\tvim-clean - reverses vim setup"
 	@echo ""
 
-svim:
+vim-setup:
 	@make -C vim
-cvim:
+vim-clean:
 	@make -C vim clean
